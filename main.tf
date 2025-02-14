@@ -28,3 +28,15 @@ resource "azurerm_subnet" "mySubnet" {
   address_prefixes       = ["10.0.17.0/24"]
   resource_group_name = var.resource_group_name
 }
+
+resource "azurerm_network_interface" "myNic" {
+  name                = "myNIC"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+
+  ip_configuration {
+    name                          = "myNicConfiguration"
+    subnet_id                     = azurerm_subnet.mySubnet.id
+    private_ip_address_allocation = "Dynamic"
+  }
+}
