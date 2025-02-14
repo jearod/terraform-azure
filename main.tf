@@ -12,4 +12,19 @@ terraform {
 
 provider "azurerm" {
   features {}
+  skip_provider_registration = true
+}
+
+resource "azurerm_virtual_network" "my_virtual_network" {
+  name                = "myVirtualNetwork"
+  address_space       = ["10.0.0.0/16"]
+  location            = var.location
+  resource_group_name = var.resource_group_name
+}
+
+resource "azurerm_subnet" "mySubnet" {
+  name                   = "mySubnet"
+  virtual_network_name    = azurerm_virtual_network.my_virtual_network.name
+  address_prefixes       = ["10.0.17.0/24"]
+  resource_group_name = var.resource_group_name
 }
